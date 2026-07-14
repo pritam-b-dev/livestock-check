@@ -1,3 +1,4 @@
+import { getUserSession } from "@/lib/core/session";
 import { PricingCard, PricingPlan } from "@/components/pricing/PricingCard";
 
 export const metadata = {
@@ -59,7 +60,10 @@ const PLANS: PricingPlan[] = [
   },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const session = await getUserSession();
+  const isLoggedIn = Boolean(session?.user);
+
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -80,7 +84,7 @@ export default function PricingPage() {
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch pt-4">
           {PLANS.map((plan) => (
-            <PricingCard key={plan.id} plan={plan} />
+            <PricingCard key={plan.id} plan={plan} isLoggedIn={isLoggedIn} />
           ))}
         </div>
 

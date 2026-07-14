@@ -1,5 +1,10 @@
-import Link from "next/link";
-import { Check, Sparkles } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Check, Sparkles, Loader2 } from "lucide-react";
+import { createCheckoutSession } from "@/lib/actions/payment";
+import { toast } from "sonner";
 
 export interface PricingPlan {
   id: string;
@@ -14,9 +19,42 @@ export interface PricingPlan {
 
 interface PricingCardProps {
   plan: PricingPlan;
+  isLoggedIn?: boolean;
 }
 
-export function PricingCard({ plan }: PricingCardProps) {
+export function PricingCard({ plan, isLoggedIn = false }: PricingCardProps) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async () => {
+    if (!isLoggedIn) {
+      router.push(`/signup?plan=${plan.id}`);
+      return;
+    }
+
+    if (plan.id === "free") {
+      router.push("/items/manage");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const result = await createCheckoutSession(plan.id);
+
+      if (result?.data?.url) {
+        window.location.href = result.data.url;
+      } else if (result?.error) {
+        toast.error(result.error);
+      } else {
+        toast.error("Could not generate payment link. Please try again.");
+      }
+    } catch (err: any) {
+      toast.error(err?.message || "Something went wrong creating checkout.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className={`relative rounded-2xl flex flex-col justify-between p-8 transition-all duration-200 ${
@@ -25,7 +63,7 @@ export function PricingCard({ plan }: PricingCardProps) {
           : "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:border-moss/40"
       }`}
     >
-      {/* Most Popular Badge for Middle Tier */}
+      {/* Most Popular Badge */}
       {plan.popular && (
         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-moss text-white text-xs font-semibold shadow-md">
           <Sparkles className="w-3.5 h-3.5" />
@@ -72,18 +110,27 @@ export function PricingCard({ plan }: PricingCardProps) {
         </div>
       </div>
 
-      {/* Action Button (Wired in F22) */}
+      {/* Action Button */}
       <div className="pt-8">
-        <Link
-          href={`/signup?plan=${plan.id}`}
-          className={`w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center transition-all ${
+        <button
+          type="button"
+          onClick={handleSubscribe}
+          disabled={loading}
+          className={`w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
             plan.popular
               ? "bg-moss hover:bg-moss/90 text-white shadow-md shadow-moss/20"
               : "bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200"
           }`}
         >
-          {plan.buttonText}
-        </Link>
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Redirecting...</span>
+            </>
+          ) : (
+            <span>{plan.buttonText}</span>
+          )}
+        </button>
       </div>
     </div>
   );

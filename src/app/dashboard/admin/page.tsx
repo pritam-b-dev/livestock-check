@@ -1,4 +1,6 @@
 import { getAnalyticsSummary } from "@/lib/actions/analytics";
+import { CategoryChart } from "@/components/dashboard/charts/CategoryChart";
+import { TrendChart } from "@/components/dashboard/charts/TrendChart";
 import {
   Boxes,
   Users,
@@ -15,6 +17,10 @@ export default async function AdminDashboardPage() {
   const totalUsers = analytics?.totalUsers ?? 0;
   const totalValue = analytics?.totalValue ?? 0;
   const lowStockAlerts = analytics?.lowStockAlerts ?? 0;
+
+  // B11 এপিআই থেকে প্রাপ্ত বা ডিফল্ট ডাটা
+  const byCategory = (analytics as any)?.byCategory || [];
+  const addedOverTime = (analytics as any)?.addedOverTime || [];
 
   return (
     <div className="space-y-8">
@@ -113,6 +119,12 @@ export default async function AdminDashboardPage() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Admin Recharts Section (Category & Trend) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <CategoryChart data={byCategory} />
+        <TrendChart data={addedOverTime} />
       </div>
 
       {/* Admin Action Links */}

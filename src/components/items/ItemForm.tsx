@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { createItem, updateItem } from "@/lib/api/items";
 import { Item } from "@/types";
 import { Loader2, Plus, Save } from "lucide-react";
+import { createItem, updateItem } from "../../lib/actions/items";
 
 interface ItemFormProps {
   initialData?: Item;
@@ -22,7 +22,7 @@ const CATEGORIES = [
 ];
 
 export function ItemForm({ initialData, mode = "create" }: ItemFormProps) {
-  const router = Router();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({

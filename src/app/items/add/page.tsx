@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getUserSession } from "@/lib/core/session";
-import { ItemForm } from "@/components/items/ItemForm";
+import { ItemForm } from "../../../components/items/ItemForm";
 
 export const metadata = {
   title: "Add New Item | Livestock Check",

@@ -1,0 +1,186 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { FaGoogle } from "react-icons/fa6";
+import { Sparkles, ArrowRight, Loader2, Mail, Lock } from "lucide-react";
+
+export default function SignInPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  // Fill credentials for demo account without auto-submitting
+  const handleTryDemo = () => {
+    setEmail("demo@livestockcheck.com");
+    setPassword("Demo@1234");
+    toast.info("Demo credentials auto-filled. Click 'Sign In' to proceed.");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      toast.error("Please enter both email and password.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await signIn.email({
+        email,
+        password,
+      });
+
+      if (res.error) {
+        toast.error(
+          res.error.message || "Failed to sign in. Check credentials.",
+        );
+      } else {
+        toast.success("Successfully signed in!");
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "An error occurred during sign in.";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    try {
+      await signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+      });
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error ? err.message : "Google authentication failed.";
+      toast.error(msg);
+      setGoogleLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-8 rounded-default border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 backdrop-blur-sm space-y-6 shadow-xl">
+      {/* Header */}
+      <div className="text-center space-y-2">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-moss/30 bg-moss/10 text-moss text-xs font-medium">
+          <span className="h-1.5 w-1.5 rounded-full bg-moss animate-pulse" />
+          Welcome Back
+        </div>
+        <h1 className="text-2xl font-bold font-heading text-foreground">
+          Sign In to Account
+        </h1>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Access your livestock tracking and management panel
+        </p>
+      </div>
+
+      {/* Demo Account Button */}
+      <button
+        type="button"
+        onClick={handleTryDemo}
+        className="w-full py-2.5 px-4 rounded-default border border-sprout/40 bg-sprout/10 hover:bg-sprout/20 text-sprout font-medium text-xs flex items-center justify-center gap-2 transition-colors"
+      >
+        <Sparkles className="w-4 h-4" />
+        Try Demo Account (Auto-fill)
+      </button>
+
+      {/* Email/Password Form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
+            Email Address
+          </label>
+          <div className="relative">
+            <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="name@example.com"
+              className="w-full pl-9 pr-4 py-2 text-sm rounded-default border border-zinc-300 dark:border-zinc-800 bg-background focus:outline-none focus:ring-2 focus:ring-moss/50 transition-all"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
+            Password
+          </label>
+          <div className="relative">
+            <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full pl-9 pr-4 py-2 text-sm rounded-default border border-zinc-300 dark:border-zinc-800 bg-background focus:outline-none focus:ring-2 focus:ring-moss/50 transition-all"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-2.5 px-4 rounded-default bg-moss hover:bg-sprout text-zinc-950 font-semibold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm disabled:opacity-50"
+        >
+          {loading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <>
+              Sign In
+              <ArrowRight className="w-4 h-4" />
+            </>
+          )}
+        </button>
+      </form>
+
+      {/* Divider */}
+      <div className="relative flex items-center justify-center my-4">
+        <div className="border-t border-zinc-200 dark:border-zinc-800 w-full" />
+        <span className="bg-background px-3 text-[10px] uppercase text-zinc-500 font-medium absolute">
+          Or
+        </span>
+      </div>
+
+      {/* Google Auth */}
+      <button
+        type="button"
+        onClick={handleGoogleSignIn}
+        disabled={googleLoading}
+        className="w-full py-2.5 px-4 rounded-default border border-zinc-300 dark:border-zinc-800 bg-background hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-foreground font-medium text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+      >
+        {googleLoading ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <>
+            <FaGoogle className="w-3.5 h-3.5 text-red-500" />
+            Continue with Google
+          </>
+        )}
+      </button>
+
+      {/* Redirect Link */}
+      <p className="text-center text-xs text-zinc-500">
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className="text-moss font-medium hover:underline">
+          Sign Up
+        </Link>
+      </p>
+    </div>
+  );
+}

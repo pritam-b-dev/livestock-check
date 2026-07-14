@@ -1,58 +1,38 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: #ffffff;
-    --foreground: #09090b;
-
-    /* Design System Colors */
-    --mist: #ecf4e8;
-    --sprout: #cbf3bb;
-    --moss: #abe7b2;
-    --harbor: #93bfc7;
-
-    --radius: 12px;
-  }
-
-  .dark {
-    --background: #09090b;
-    --foreground: #fafafa;
-
-    --mist: transparent;
-    --sprout: #cbf3bb;
-    --moss: #abe7b2;
-    --harbor: #93bfc7;
-  }
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-mist: var(--mist);
-  --color-sprout: var(--sprout);
-  --color-moss: var(--moss);
-  --color-harbor: var(--harbor);
-
+  --font-inter: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
-  --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 
-  --radius-default: var(--radius);
+  --color-moss: #059669;
+  --color-sprout: #10b981;
+  --color-bark: #78350f;
+  --color-sand: #f5f5f4;
+  --color-harbor: #0284c7;
+
+  --radius-default: 0.5rem;
+}
+
+/* Custom CSS Variables for Background & Foreground */
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
+
+  --color-moss: #10b981;
+  --color-sprout: #34d399;
+  --color-sand: #18181b;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), sans-serif;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading), sans-serif;
-}
-
-.font-data {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-inter), sans-serif;
 }

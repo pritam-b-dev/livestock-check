@@ -4,7 +4,7 @@ import { FaGithub, FaXTwitter, FaLinkedinIn } from "react-icons/fa6";
 
 export function Footer() {
   return (
-    <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-background transition-colors">
+    <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Info */}
@@ -14,11 +14,11 @@ export function Footer() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-moss opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-moss"></span>
               </span>
-              <span className="font-heading font-semibold text-lg text-foreground">
+              <span className="font-heading font-semibold text-lg text-zinc-900 dark:text-zinc-50">
                 LiveStock-Check
               </span>
             </Link>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
               Real-time livestock management, tracking, and analytics platform
               built for modern farms and enterprise operations.
             </p>
@@ -26,19 +26,22 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h4 className="font-heading font-medium text-sm text-foreground">
+            <h4 className="font-heading font-semibold text-sm text-zinc-900 dark:text-zinc-100">
               Navigation
             </h4>
-            <ul className="space-y-2 text-xs text-zinc-500 dark:text-zinc-400">
+            <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
               <li>
-                <Link href="/" className="hover:text-moss transition-colors">
+                <Link
+                  href="/"
+                  className="hover:text-moss dark:hover:text-moss transition-colors"
+                >
                   Home
                 </Link>
               </li>
               <li>
                 <Link
                   href="/items"
-                  className="hover:text-moss transition-colors"
+                  className="hover:text-moss dark:hover:text-moss transition-colors"
                 >
                   Explore Items
                 </Link>
@@ -46,7 +49,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/pricing"
-                  className="hover:text-moss transition-colors"
+                  className="hover:text-moss dark:hover:text-moss transition-colors"
                 >
                   Pricing
                 </Link>
@@ -54,7 +57,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="hover:text-moss transition-colors"
+                  className="hover:text-moss dark:hover:text-moss transition-colors"
                 >
                   About Us
                 </Link>
@@ -62,7 +65,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="hover:text-moss transition-colors"
+                  className="hover:text-moss dark:hover:text-moss transition-colors"
                 >
                   Contact
                 </Link>
@@ -72,10 +75,10 @@ export function Footer() {
 
           {/* Contact Details */}
           <div className="space-y-3">
-            <h4 className="font-heading font-medium text-sm text-foreground">
+            <h4 className="font-heading font-semibold text-sm text-zinc-900 dark:text-zinc-100">
               Contact
             </h4>
-            <ul className="space-y-2 text-xs text-zinc-500 dark:text-zinc-400">
+            <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
               <li className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-harbor" />
                 <span>support@livestock-check.com</span>
@@ -91,27 +94,27 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Social Links using react-icons */}
+          {/* Social Links */}
           <div className="space-y-3">
-            <h4 className="font-heading font-medium text-sm text-foreground">
+            <h4 className="font-heading font-semibold text-sm text-zinc-900 dark:text-zinc-100">
               Connect
             </h4>
             <div className="flex items-center gap-3">
               <a
                 href="#"
-                className="p-2 rounded-default bg-zinc-100 dark:bg-zinc-800/80 hover:text-moss transition-colors"
+                className="p-2 rounded-default bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-moss transition-colors border border-zinc-200 dark:border-zinc-700"
               >
                 <FaGithub className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="p-2 rounded-default bg-zinc-100 dark:bg-zinc-800/80 hover:text-moss transition-colors"
+                className="p-2 rounded-default bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-moss transition-colors border border-zinc-200 dark:border-zinc-700"
               >
                 <FaXTwitter className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="p-2 rounded-default bg-zinc-100 dark:bg-zinc-800/80 hover:text-moss transition-colors"
+                className="p-2 rounded-default bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-moss transition-colors border border-zinc-200 dark:border-zinc-700"
               >
                 <FaLinkedinIn className="w-4 h-4" />
               </a>
@@ -119,7 +122,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row justify-between items-center text-xs text-zinc-500 gap-4">
+        <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row justify-between items-center text-xs text-zinc-600 dark:text-zinc-400 gap-4">
           <p>
             © {new Date().getFullYear()} LiveStock-Check. All rights reserved.
           </p>

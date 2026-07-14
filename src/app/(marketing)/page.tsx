@@ -4,6 +4,8 @@ import { FeaturedItems } from "@/components/home/FeaturedItems";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { Testimonials } from "@/components/home/Testimonials";
 import { Stats } from "@/components/home/Stats";
+import { FAQ } from "@/components/home/FAQ";
+import { Newsletter } from "@/components/home/Newsletter";
 
 export default function HomePage() {
   return (
@@ -14,6 +16,8 @@ export default function HomePage() {
       <HowItWorks />
       <Testimonials />
       <Stats />
+      <FAQ />
+      <Newsletter />
     </main>
   );
 }

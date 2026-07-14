@@ -16,3 +16,18 @@ export async function createCheckoutSession(planId: string) {
     );
   }
 }
+
+export async function confirmPayment(sessionId: string) {
+  try {
+    const response = await serverMutation<{
+      planName?: string;
+      planId?: string;
+    }>("/api/payment/confirm", { sessionId });
+
+    return response;
+  } catch (error: any) {
+    throw new Error(
+      error?.message || "Failed to confirm payment status with server.",
+    );
+  }
+}

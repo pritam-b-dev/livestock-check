@@ -1,14 +1,18 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Item } from "@/types";
-import { MapPin, ArrowUpRight } from "lucide-react";
+import { MapPin, ArrowUpRight, ImageOff } from "lucide-react";
 
 interface ItemCardProps {
   item: Item;
 }
 
 export function ItemCard({ item }: ItemCardProps) {
-  // Signature status pulse dot configuration based on inventory status
+  const [imageError, setImageError] = useState(false);
+
   const getStatusPulse = (status: Item["status"]) => {
     switch (status) {
       case "In Stock":
@@ -40,21 +44,25 @@ export function ItemCard({ item }: ItemCardProps) {
 
   return (
     <div className="group relative flex flex-col justify-between h-full rounded-[12px] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 hover:border-moss/50 dark:hover:border-moss/50 transition-all duration-200 shadow-sm hover:shadow-md overflow-hidden">
-      {/* Top Section: Image & Basic Info */}
       <div>
         {/* Aspect-ratio locked image container */}
         <div className="relative aspect-[16/10] w-full bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden rounded-t-[12px]">
-          {item.imageUrl ? (
+          {item.imageUrl && !imageError ? (
             <Image
               src={item.imageUrl}
               alt={item.name}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-300"
+              onError={() => setImageError(true)}
+              unoptimized={item.imageUrl.includes("picsum.photos")}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-zinc-400 text-xs font-mono">
-              NO IMAGE
+            <div className="w-full h-full flex flex-col items-center justify-center text-zinc-400 gap-1 bg-zinc-100 dark:bg-zinc-800/40">
+              <ImageOff className="w-5 h-5 text-zinc-400 stroke-[1.5]" />
+              <span className="text-[10px] font-mono tracking-wider uppercase text-zinc-400">
+                No Image
+              </span>
             </div>
           )}
 
@@ -88,13 +96,13 @@ export function ItemCard({ item }: ItemCardProps) {
             </div>
           </div>
 
-          {/* Location in regular body text */}
+          {/* Location */}
           <div className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-400">
             <MapPin className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
             <span className="truncate">{item.location || "Central Barn"}</span>
           </div>
 
-          {/* Meta Row: SKU & Price in JetBrains Mono font-mono */}
+          {/* Meta Row: SKU & Price */}
           <div className="flex items-center justify-between pt-2 border-t border-zinc-100 dark:border-zinc-800/60 font-mono text-xs">
             <div className="text-zinc-500 dark:text-zinc-400">
               SKU:{" "}

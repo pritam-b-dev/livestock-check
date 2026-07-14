@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { NavBar } from "@/components/layout/NavBar";
+import { Footer } from "@/components/layout/Footer";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,8 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LiveStock Check Client",
-  description: "Livestock Management and Tracking Platform",
+  title: "LiveStock-Check — Livestock Management Platform",
+  description:
+    "Real-time livestock management, tracking, and analytics platform.",
 };
 
 export default function RootLayout({
@@ -37,14 +41,17 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="antialiased min-h-screen bg-background text-foreground">
+      <body className="antialiased min-h-screen flex flex-col bg-background text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
           disableTransitionOnChange
         >
-          {children}
+          <NavBar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+          <Toaster position="bottom-right" richColors />
         </ThemeProvider>
       </body>
     </html>

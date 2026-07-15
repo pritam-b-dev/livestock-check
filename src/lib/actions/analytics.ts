@@ -2,7 +2,9 @@
 
 import { cookies } from "next/headers";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_SERVER_URL ||
+  "https://livestock-check-server.vercel.app";
 
 export interface AnalyticsSummary {
   totalItems: number;
@@ -14,9 +16,9 @@ export interface AnalyticsSummary {
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary | null> {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get("session")?.value;
+    const token = cookieStore.get("session_token")?.value;
 
-    const res = await fetch(`${API_BASE_URL}/api/admin/analytics`, {
+    const res = await fetch(`${API_BASE_URL}/api/analytics/summary`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

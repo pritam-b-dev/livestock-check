@@ -14,13 +14,21 @@ import {
   Package,
   Home,
   Tag,
+  ShieldCheck,
 } from "lucide-react";
 
 export function NavBar() {
   const { data: session, isPending } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  console.log(session);
+  console.log(session?.user);
   const user = session?.user;
+  const currentUser = user as
+    | (typeof user & {
+        role?: string;
+        plan?: string;
+      })
+    | undefined;
 
   const handleSignOut = async () => {
     await signOut();
@@ -81,6 +89,15 @@ export function NavBar() {
                   <LayoutDashboard className="w-4 h-4 text-moss" />
                   Dashboard
                 </Link>
+                {currentUser?.role === "admin" && (
+                  <Link
+                    href="/dashboard/admin"
+                    className="text-sm font-medium text-amber-500 dark:text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1.5"
+                  >
+                    <ShieldCheck className="w-4 h-4" />
+                    Admin Portal
+                  </Link>
+                )}
               </>
             ) : (
               <Link
@@ -181,6 +198,16 @@ export function NavBar() {
                 <LayoutDashboard className="w-4 h-4 text-moss" />
                 Dashboard
               </Link>
+              {currentUser?.role === "admin" && (
+                <Link
+                  href="/dashboard/admin"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm font-medium text-amber-500"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  Admin Portal
+                </Link>
+              )}
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);

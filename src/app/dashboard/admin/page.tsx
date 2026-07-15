@@ -18,10 +18,9 @@ export default async function AdminDashboardPage() {
   const totalValue = analytics?.totalValue ?? 0;
   const lowStockAlerts = analytics?.lowStockAlerts ?? 0;
 
-  // B11 এপিআই থেকে প্রাপ্ত বা ডিফল্ট ডাটা
   const byCategory = (analytics as any)?.byCategory || [];
   const addedOverTime = (analytics as any)?.addedOverTime || [];
-
+  console.log(analytics);
   return (
     <div className="space-y-8">
       {/* Page Title */}

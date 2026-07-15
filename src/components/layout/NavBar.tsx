@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "@/lib/auth-client";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { clearSessionToken } from "@/lib/actions/auth-session";
 import {
   Menu,
   X,
@@ -23,6 +24,7 @@ export function NavBar() {
 
   const handleSignOut = async () => {
     await signOut();
+    await clearSessionToken();
     window.location.href = "/";
   };
 

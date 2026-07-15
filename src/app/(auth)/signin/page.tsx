@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { FaGoogle } from "react-icons/fa6";
 import { Sparkles, ArrowRight, Loader2, Mail, Lock } from "lucide-react";
+import { authClient, signIn } from "@/lib/auth-client";
+import { storeSessionToken } from "@/lib/actions/auth-session";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -43,6 +44,10 @@ export default function SignInPage() {
           res.error.message || "Failed to sign in. Check credentials.",
         );
       } else {
+        const { data } = await authClient.token();
+        if (data?.token) {
+          await storeSessionToken(data.token);
+        }
         toast.success("Successfully signed in!");
         window.location.href = "/dashboard";
       }
@@ -62,7 +67,7 @@ export default function SignInPage() {
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/dashboard",
+        callbackURL: "/callback",
       });
     } catch (err: unknown) {
       const msg =

@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signUp, signIn } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { FaGoogle } from "react-icons/fa6";
 import { ArrowRight, Loader2, User, Mail, Lock } from "lucide-react";
+import { authClient, signIn } from "@/lib/auth-client";
+import { storeSessionToken } from "@/lib/actions/auth-session";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -41,9 +43,12 @@ export default function SignUpPage() {
       if (res.error) {
         toast.error(res.error.message || "Failed to create account.");
       } else {
+        const { data } = await authClient.token();
+        if (data?.token) {
+          await storeSessionToken(data.token);
+        }
         toast.success("Account created successfully!");
-        router.push("/dashboard");
-        router.refresh();
+        window.location.href = "/dashboard";
       }
     } catch (err: unknown) {
       const msg =
@@ -61,7 +66,7 @@ export default function SignUpPage() {
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/dashboard",
+        callbackURL: "/callback",
       });
     } catch (err: unknown) {
       const msg =

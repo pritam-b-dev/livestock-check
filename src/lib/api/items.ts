@@ -51,3 +51,16 @@ export async function getMyItems(): Promise<Item[]> {
 
   return response.data;
 }
+
+/**
+ * Protected: Fetch ALL items across all users (admin only)
+ */
+export async function getAllItemsAdmin(): Promise<Item[]> {
+  const response = await protectedFetch<Item[]>("/api/items/admin/all");
+
+  if (response.error || !response.data) {
+    return [];
+  }
+
+  return response.data;
+}

@@ -79,8 +79,17 @@ export function NavBar() {
                   href="/items/manage"
                   className="text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-moss transition-colors flex items-center gap-1.5"
                 >
-                  <Package className="w-4 h-4 text-harbor" />
-                  Manage Items
+                  {currentUser?.role === "admin" ? (
+                    <>
+                      <ShieldCheck className="w-4 h-4 text-amber-500" />
+                      Manage All Items
+                    </>
+                  ) : (
+                    <>
+                      <Package className="w-4 h-4 text-harbor" />
+                      Manage Items
+                    </>
+                  )}
                 </Link>
                 <Link
                   href="/dashboard"
@@ -187,8 +196,17 @@ export function NavBar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center gap-2 p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm font-medium text-zinc-800 dark:text-zinc-200"
               >
-                <Package className="w-4 h-4 text-harbor" />
-                Manage Items
+                {currentUser?.role === "admin" ? (
+                  <>
+                    <ShieldCheck className="w-4 h-4 text-amber-500" />
+                    Manage All Items
+                  </>
+                ) : (
+                  <>
+                    <Package className="w-4 h-4 text-harbor" />
+                    Manage Items
+                  </>
+                )}
               </Link>
               <Link
                 href="/dashboard"

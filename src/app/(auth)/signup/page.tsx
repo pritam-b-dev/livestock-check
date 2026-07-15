@@ -66,7 +66,7 @@ export default function SignUpPage() {
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/callback",
+        callbackURL: `${window.location.origin}/callback`,
       });
     } catch (err: unknown) {
       const msg =

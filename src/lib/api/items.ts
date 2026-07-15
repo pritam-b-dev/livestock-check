@@ -43,7 +43,7 @@ export async function getItem(id: string): Promise<Item | null> {
  * Protected: Fetch items owned by the logged-in user
  */
 export async function getMyItems(): Promise<Item[]> {
-  const response = await protectedFetch<Item[]>("/api/items/my-items");
+  const response = await protectedFetch<Item[]>("/api/items/mine");
 
   if (response.error || !response.data) {
     return [];

@@ -68,7 +68,7 @@ export function NavBar() {
                   Add Item
                 </Link>
                 <Link
-                  href="/manage"
+                  href="/items/manage"
                   className="text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-moss transition-colors flex items-center gap-1.5"
                 >
                   <Package className="w-4 h-4 text-harbor" />

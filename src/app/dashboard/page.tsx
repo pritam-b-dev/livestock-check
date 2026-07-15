@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getUserSession } from "@/lib/core/session";
 import { getMySubscription } from "@/lib/actions/subscription";
-import { getItems } from "@/lib/api/items";
+import { getItems, getMyItems } from "@/lib/api/items";
 import {
   PlusCircle,
   Boxes,
@@ -16,14 +16,7 @@ export default async function DashboardPage() {
   const user = session?.user;
 
   const subscription = await getMySubscription();
-  const itemsData = await getItems();
-  const rawItems = Array.isArray(itemsData)
-    ? itemsData
-    : itemsData?.items || [];
-
-  const myItems = rawItems.filter(
-    (item: any) => item.userId === user?.id || item.ownerId === user?.id,
-  );
+  const myItems = await getMyItems();
 
   const itemLimit = subscription?.itemLimit || 20;
   const currentItemCount = subscription?.currentUsage ?? myItems.length;

@@ -59,7 +59,7 @@ export default async function PaymentSuccessPage({
         {/* Action Buttons */}
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
-            href="/items/manage"
+            href="/dashboard"
             className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-moss hover:bg-moss/90 text-white font-semibold text-sm inline-flex items-center justify-center gap-2 transition-all shadow-md shadow-moss/15"
           >
             <LayoutDashboard className="w-4 h-4" />

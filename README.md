@@ -215,7 +215,7 @@ STRIPE_WEBHOOK_SECRET=
 ## Clone
 
 ```bash
-git clone https://github.com/your-username/livestock-check.git
+git clone https://github.com/pritam-b-dev/livestock-check.git
 ```
 
 ---
@@ -252,23 +252,6 @@ npm run dev
 
 ---
 
-# 📸 Screenshots
-
-> Add project screenshots here after deployment.
-
----
-
-# 👨‍💻 Author
-
-**Your Name**
-
-GitHub:
-https://github.com/yourusername
-
-LinkedIn:
-https://linkedin.com/in/yourprofile
-
----
 
 # 📄 License
 

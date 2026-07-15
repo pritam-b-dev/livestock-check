@@ -25,7 +25,7 @@ export function NavBar() {
   const handleSignOut = async () => {
     await signOut();
     await clearSessionToken();
-    window.location.href = "/";
+    window.location.href = "/signin";
   };
 
   return (
@@ -101,7 +101,7 @@ export function NavBar() {
                 {user ? (
                   <button
                     onClick={handleSignOut}
-                    className="px-3.5 py-1.5 rounded-default bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-sm font-medium text-zinc-900 dark:text-zinc-100 transition-colors flex items-center gap-1.5 border border-zinc-300 dark:border-zinc-700"
+                    className="px-3.5 py-1.5 rounded-default bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-sm font-medium text-zinc-900 dark:text-zinc-100 transition-colors flex items-center gap-1.5 border border-zinc-300 dark:border-zinc-700 cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" />
                     Sign Out
@@ -166,7 +166,7 @@ export function NavBar() {
                 Add Item
               </Link>
               <Link
-                href="/manage"
+                href="/items/manage"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center gap-2 p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm font-medium text-zinc-800 dark:text-zinc-200"
               >

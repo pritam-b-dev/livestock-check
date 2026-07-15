@@ -49,7 +49,8 @@ export default function SignInPage() {
           await storeSessionToken(data.token);
         }
         toast.success("Successfully signed in!");
-        window.location.href = "/dashboard";
+        router.replace("/dashboard");
+        router.refresh();
       }
     } catch (err: unknown) {
       const msg =

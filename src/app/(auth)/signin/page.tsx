@@ -45,11 +45,24 @@ export default function SignInPage() {
         );
       } else {
         const { data } = await authClient.token();
+
         if (data?.token) {
           await storeSessionToken(data.token);
         }
+
+        const session = await authClient.getSession();
+
+        const role = (session.data?.user as { role?: string } | undefined)
+          ?.role;
+
         toast.success("Successfully signed in!");
-        router.replace("/dashboard");
+
+        if (role === "admin") {
+          router.replace("/dashboard/admin");
+        } else {
+          router.replace("/dashboard");
+        }
+
         router.refresh();
       }
     } catch (err: unknown) {

@@ -215,7 +215,7 @@ STRIPE_WEBHOOK_SECRET=
 ## Clone
 
 ```bash
-git clone [https://github.com/your-username/livestock-check](https://github.com/pritam-b-dev/livestock-check).git
+git clone https://github.com/pritam-b-dev/livestock-check.git
 ```
 
 ---

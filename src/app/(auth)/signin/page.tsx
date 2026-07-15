@@ -44,8 +44,7 @@ export default function SignInPage() {
         );
       } else {
         toast.success("Successfully signed in!");
-        router.push("/dashboard");
-        router.refresh();
+        window.location.href = "/dashboard";
       }
     } catch (err: unknown) {
       const msg =

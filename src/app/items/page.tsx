@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { getItems } from "@/lib/api/items";
 import { ItemCard } from "@/components/items/ItemCard";
 import { ItemsFilter } from "@/components/items/ItemsFilter";
@@ -25,7 +28,7 @@ export default async function ItemsPage({ searchParams }: PageProps) {
   if (resolvedParams.status) query.set("status", resolvedParams.status);
   if (resolvedParams.sort) query.set("sort", resolvedParams.sort);
   query.set("page", page.toString());
-  query.set("limit", limit.toString());
+  query.set("perPage", limit.toString());
 
   // Safe destructuring & fallback assignment
   const { items = [], total = 0 } = (await getItems(query.toString())) || {};

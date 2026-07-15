@@ -8,15 +8,22 @@ export async function getItems(
   queryString: string = "",
 ): Promise<{ items: Item[]; total: number }> {
   const query = queryString ? `?${queryString.replace(/^\?/, "")}` : "";
-  const response = await serverFetch<{ items: Item[]; total: number }>(
-    `/api/items${query}`,
-  );
+
+  const response = await serverFetch<{
+    items: Item[];
+    pagination: {
+      totalItems: number;
+    };
+  }>(`/api/items${query}`);
 
   if (response.error || !response.data) {
     return { items: [], total: 0 };
   }
 
-  return response.data;
+  return {
+    items: response.data.items,
+    total: response.data.pagination.totalItems,
+  };
 }
 
 /**

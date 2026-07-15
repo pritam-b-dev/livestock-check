@@ -4,6 +4,11 @@ import { jwtClient } from "better-auth/client/plugins";
 // Singleton Client Instance
 export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL || process.env.BETTER_AUTH_URL,
+
+  fetchOptions: {
+    credentials: "include",
+  },
+
   plugins: [jwtClient()],
 });
 

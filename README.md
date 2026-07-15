@@ -252,23 +252,6 @@ npm run dev
 
 ---
 
-# 📸 Screenshots
-
-> Add project screenshots here after deployment.
-
----
-
-# 👨‍💻 Author
-
-**Your Name**
-
-GitHub:
-https://github.com/yourusername
-
-LinkedIn:
-https://linkedin.com/in/yourprofile
-
----
 
 # 📄 License
 

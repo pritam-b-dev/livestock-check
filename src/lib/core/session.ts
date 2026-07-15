@@ -1,42 +1,39 @@
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
-/**
- * Server-side session retrieval
- */
-export async function getUserSession() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
+const SERVER_URL =
+  process.env.NEXT_PUBLIC_SERVER_URL ||
+  "https://livestock-check-server.vercel.app";
+
+const fetchSession = cache(async () => {
+  const cookieHeader = (await headers()).get("cookie") || "";
+
+  const res = await fetch(`${SERVER_URL}/api/auth/get-session`, {
+    headers: { cookie: cookieHeader },
+    cache: "no-store",
   });
+
+  if (!res.ok) {
+    return { session: null, token: null };
+  }
+
+  const session = await res.json().catch(() => null);
+  const token = res.headers.get("set-auth-jwt");
+
+  return { session, token };
+});
+
+export async function getUserSession() {
+  const { session } = await fetchSession();
   return session;
 }
 
-/**
- * Extract JWT Token from headers / session runtime
- */
 export async function getUserToken(): Promise<string | null> {
-  const reqHeaders = await headers();
-
-  // Checking direct authorization header or set-auth-jwt header
-  const authHeader =
-    reqHeaders.get("authorization") || reqHeaders.get("set-auth-jwt");
-  if (authHeader) {
-    return authHeader.replace(/^Bearer\s+/i, "");
-  }
-
-  // Fallback to active session check
-  const session = await getUserSession();
-  if (session && "token" in session && typeof session.token === "string") {
-    return session.token;
-  }
-
-  return null;
+  const { token } = await fetchSession();
+  return token;
 }
 
-/**
- * Role-based protection guard for Server Components & Actions
- */
 export async function requireRole(allowedRoles: string | string[]) {
   const session = await getUserSession();
 
